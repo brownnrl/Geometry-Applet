@@ -19,12 +19,12 @@
 +----------------------------------------------------------------------*/
 
 import java.awt.*;
+import java.awt.event.*;
 import java.applet.Applet;
-//import java.lang.*;
-//import java.io.*;
 import java.util.StringTokenizer;
 
-public class Geometry extends Applet {
+public class Geometry extends Applet implements ActionListener
+{
 
   boolean debug;
   String title;
@@ -221,6 +221,14 @@ public class Geometry extends Applet {
       slate.setPivot(param);
     
     slate.updateCoordinates(0);
+    
+    closeButton = new Button("Close");
+    resetButton = new Button("Reset");
+    returnButton = new Button("Return");
+    
+    closeButton.addActionListener(this); 
+    resetButton.addActionListener(this);
+    returnButton.addActionListener(this);
   }
 
   public boolean keyDown(Event evt, int key) {
@@ -258,29 +266,31 @@ public class Geometry extends Applet {
       return true;
     } else return false;
   }
-
-  public boolean action(Event evt, Object arg) {
-    if (evt.target instanceof Button) {
-      if (evt.target == closeButton || evt.target == returnButton) {
-	if (floating) {
-	  floating=false;
-          floater.hide();
-          floater.remove(slate);
-	  slate.reshape(0, 0, baseSize.width, baseSize.height);
-	  add(slate);
-	  invalidate();
-	  layout();
-//	  floater.dispose();
-	  floater = null;
-	}
-	return true;
-      } else if (evt.target == resetButton) {
-	slate.reset();		
-	slate.repaint();
-	return true;
-      } else return false;
-    } else return false;
-} }
+  
+  public void actionPerformed(ActionEvent e)
+  {
+	 Object target = e.getSource();
+	 if (target==closeButton || target == returnButton) {
+		 if (floating) {
+			 floating = false;
+			 floater.hide();
+			 floater.remove(slate);
+			 slate.reshape(0, 0, baseSize.width, baseSize.height);
+			 add(slate);
+			 invalidate();
+			 layout();
+		 }
+		 
+		 return;
+	 }
+	 else if (target == resetButton)
+	 {
+		 slate.reset();
+		 slate.repaint();
+	 }
+  } 
+  
+}
 
 
 
