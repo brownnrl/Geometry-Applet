@@ -23,7 +23,7 @@ import java.awt.event.*;
 import java.applet.Applet;
 import java.util.StringTokenizer;
 
-public class Geometry extends Applet implements ActionListener
+public class Geometry extends Applet implements ActionListener, KeyListener
 {
 
   boolean debug;
@@ -253,42 +253,70 @@ public class Geometry extends Applet implements ActionListener
     closeButton.addActionListener(this); 
     resetButton.addActionListener(this);
     returnButton.addActionListener(this);
+    
+    slate.addKeyListener(this);
+  }
+  
+  public void keyPressed(KeyEvent e) {}
+  
+  public void keyReleased(KeyEvent e) {}
+  
+  public void keyTyped(KeyEvent e) 
+  {
+	  char key = e.getKeyChar();
+	  
+	  switch(key)
+	  {
+		  case 'r':
+		  case 'R':
+		  case ' ':
+			  slate.reset();
+		      slate.repaint();
+		      break;
+		  case 'u':
+		  case 'U':
+			  floatWindow();
+			  break;
+		  case '\n':
+			  if(!floating) floatWindow();
+			  else unFloatWindow();
+			  break;
+		  case 'd':
+		  case 'D':
+			  unFloatWindow();
+	  }
+	  
   }
 
-  public boolean keyDown(Event evt, int key) {
-    if (key=='u' || key=='U' || (key=='\n' && !floating)) {
-      if (!floating) {
-        floating=true;		// typing u or return starts floating window
+  private void floatWindow() 
+  {
+    floating=true;		// typing u or return starts floating window
+    
 	floater = new ClientFrame(title,this);
+	
 	remove(slate);
-	if (resetButton == null)
-	  resetButton = new Button("Reset");
-	if (closeButton == null)
-	  closeButton = new Button("Close");
+	
 	floater.add("Center",slate);
+	
 	Panel south = new Panel();
 	south.add(resetButton);
 	south.add(closeButton);
 	floater.add("South",south);
 	floater.resize(baseSize.width,baseSize.height+50);
 	floater.show();
-      }
-      return true;
-    } else if (key=='d' || key=='D' || key=='\n') {
-      if (floating) {
-        floating=false;		// typing d or return drops floating window
-        floater.hide();
+  }
+  
+  private void unFloatWindow()
+  {
+    floating=false;		// typing d or return drops floating window
+    floater.hide();
 	floater.remove(slate);
 	slate.resize(baseSize);
 	slate.reshape(0, 0, baseSize.width, baseSize.height);
 	add(slate);
 	invalidate();
 	layout();
-//	floater.dispose();	dispose isn't recognized for some reason
 	floater = null;
-      }
-      return true;
-    } else return false;
   }
   
   public void actionPerformed(ActionEvent e)

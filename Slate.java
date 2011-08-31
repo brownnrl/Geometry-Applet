@@ -15,10 +15,15 @@
 +----------------------------------------------------------------------*/
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.lang.String;
 import java.util.StringTokenizer;
 
-public class Slate extends Canvas {
+public class Slate extends Canvas implements KeyListener, MouseListener, MouseMotionListener {
 
   int eCount;
   Element element[];
@@ -36,15 +41,19 @@ public class Slate extends Canvas {
     element[0] = new FixedPoint(0.0,0.0,0.0);
     element[0].name = "screenorigin";
     element[1] = new FixedPoint(1.0,0.0,0.0);
-    element[0].name = "screenx";
+    element[1].name = "screenx";
     element[2] = new FixedPoint(0.0,1.0,0.0);
-    element[0].name = "screeny";
+    element[2].name = "screeny";
     screen = new PlaneElement((PointElement)element[0],
       (PointElement)element[1],(PointElement)element[2]);
     screen.name = "screen";
     screen.isScreen = true;
     element[3] = screen;
     eCount = 4;
+    
+    addKeyListener(this);
+    addMouseListener(this);
+    addMouseMotionListener(this);
   }
 
   void extendArrays() {
@@ -877,6 +886,13 @@ public class Slate extends Canvas {
 
   public void paint(Graphics g) {repaint();}
 
+  public void keyPressed(KeyEvent e) {}
+  
+  public void keyReleased(KeyEvent e) {}
+  
+  public void keyTyped(KeyEvent e) {}
+  
+
   void movePick (int c, int d) {
     if (pick == null) {			// select a nearby visible point
       picki = -1;
@@ -916,15 +932,34 @@ public class Slate extends Canvas {
     }		
     repaint();
   }
-
-  public boolean keyDown(Event evt, int key) {
-    if (key=='r' || key=='R' || key==' ') {
-      reset();				// typing r or space resets the diagram
-      repaint();
-      return true;
-    } else return false;
+  
+  public void mouseClicked(MouseEvent e) {}
+  
+  public void mouseEntered(MouseEvent e) {}
+  
+  public void mouseExited(MouseEvent e) {}
+  
+  public void mousePressed(MouseEvent e) 
+  {
+	  pick = null;
+	  movePick(e.getX(),e.getY());
   }
-
+  
+  public void mouseReleased(MouseEvent e) 
+  {
+	  if(pick == null) return;
+	  movePick(e.getX(),e.getY());
+	  pick = null;
+  }
+  
+  public void mouseDragged(MouseEvent e) 
+  {
+	  movePick (e.getX(),e.getY());
+  }
+  
+  public void mouseMoved(MouseEvent e) {}
+  
+  /*
   public boolean mouseDown(Event evt, int c, int d) {
     // determine which ball is closest to location (c,d).
     pick = null;
@@ -942,4 +977,8 @@ public class Slate extends Canvas {
     movePick(c,d);
     pick = null;
     return true;
-} }
+  }
+  */
+  
+  
+}
