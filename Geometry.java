@@ -20,8 +20,6 @@
 
 import java.awt.*;
 import java.applet.Applet;
-//import java.lang.*;
-//import java.io.*;
 import java.util.StringTokenizer;
 
 public class Geometry extends Applet {
@@ -161,13 +159,19 @@ public class Geometry extends Applet {
 
   public void init() {
     baseSize = getSize();
+    
     parCount = 0;
+    
     getAppletContext().showStatus("initializing Geometry applet");
+    
     String param = getParameter("debug");
+    
     debug = (param == null) ?
       false :
       (param.equalsIgnoreCase("yes") || param.equalsIgnoreCase("true"));
+    
     param = getParameter("init");
+    
     try {
       init = (param == null) ? Integer.MAX_VALUE : Integer.parseInt(param);
     } catch (NumberFormatException exc) {
@@ -175,24 +179,35 @@ public class Geometry extends Applet {
     }
 
     slate = new Slate(100);
+
     title = getParameter("title");
+    
     if (title == null) title = "Geometry";
+    
     font = getParameter("font");
+    
     if (font == null) font = "TimesRoman";
+    
     param = getParameter("fontsize");
     try {
       fontsize = (param == null) ? 18 : Integer.parseInt(param);
     } catch (NumberFormatException exc) {
       fontsize = 18;
     }
+    
     slate.setFont(new Font(font,Font.ITALIC,fontsize));
+    
     param = getParameter("align");
+    
     defaultAlign = parseAlign(param);
+    
     if (debug) System.out.println ("param="+param+" defaultAlign="+defaultAlign);
 
     param = getParameter("background");
+    
     if (param != null) 
       background = parseColor(param);
+    
     if (background == null)
       background = getBackground();
     else
@@ -200,27 +215,35 @@ public class Geometry extends Applet {
 
     setLayout(new BorderLayout());
     add("Center",slate);
+    
     stage = init;
-    while (parCount != -1 && parCount < stage) {
+    
+    while (parCount != -1 && parCount < stage) 
+    {
       param = getParameter("e["+(parCount+1)+"]");
       if (debug)
         System.out.println("Parsing parameter e["+(parCount+1)+"]="+param);
-      if (param == null)
-        parCount = -1;
-      else {
+      
+      if (param == null) parCount = -1;
+      else 
+      {
         Element e = parseElement(param,message);
-        if (e == null) {
-          System.out.println("Parameter e["+(parCount+1)+"]="+param
-		+" not parsed. " + message.toString());
-          parCount = -1;
-        } else
-	  ++parCount;
-    } }
+        if (e == null) 
+        {
+        	System.out.println("Parameter e["+(parCount+1)+"]="+param
+        			+" not parsed. " + message.toString());
+        	parCount = -1;
+        } 
+        else ++parCount;
+      }
+    }
+    
     param = getParameter("pivot");
     if (param != null)
       slate.setPivot(param);
     
     slate.updateCoordinates(0);
+    
   }
 
   public boolean keyDown(Event evt, int key) {
