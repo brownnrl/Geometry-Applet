@@ -855,7 +855,7 @@ public class Slate extends Canvas implements KeyListener, MouseListener, MouseMo
 
   public void drawElements (Graphics g) {
     g.setColor(getBackground());
-    Dimension d = size();
+    Dimension d = getSize();
     g.fillRect(0, 0, d.width, d.height);
     for (int i=0; i<eCount; ++i) 
       element[i].drawFace(g);
@@ -872,7 +872,7 @@ public class Slate extends Canvas implements KeyListener, MouseListener, MouseMo
   Graphics offgraphics;
 
   public void update (Graphics g) {
-    Dimension d = size();
+    Dimension d = getSize();
     if ((offscreen == null) || (d.width != offscreensize.width) 
 		|| (d.height != offscreensize.height)) {
       offscreen = createImage(d.width, d.height);
@@ -909,10 +909,10 @@ public class Slate extends Canvas implements KeyListener, MouseListener, MouseMo
     if (picki == -1) return;
     pick = (PointElement) element[picki];
     // adjust c and d to be on the image so pick doesn't get lost
-    int w = size().width;
+    int w = getSize().width;
     if (c < 0) c = 0;
     else if (c > w) c = w;
-    int h = size().height;
+    int h = getSize().height;
     if (d < 0) d = 0;
     else if (d > h) d = h;
     if (Math.abs(c-pick.x) + Math.abs(d-pick.y) < 1.0)

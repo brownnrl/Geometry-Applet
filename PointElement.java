@@ -149,7 +149,7 @@ public class PointElement extends Element {
       PointElement BmA = difference(B,A), CmA = difference(C,A);
       double BC = dot(BmA,CmA);
       double B2 = BmA.length2(), C2 = CmA.length2();
-      double BC2 = BC*BC;       
+      //double BC2 = BC*BC;       
       double den = 2.0*(B2*C2-BC*BC);
       double s = C2*(B2-BC)/den;
       double t = B2*(C2-BC)/den;

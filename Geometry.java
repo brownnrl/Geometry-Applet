@@ -292,7 +292,7 @@ public class Geometry extends Applet implements ActionListener, KeyListener
   {
     floating=true;		// typing u or return starts floating window
     
-	floater = new ClientFrame(title,this);
+	floater = new ClientFrame(title);
 	
 	remove(slate);
 	
@@ -302,20 +302,20 @@ public class Geometry extends Applet implements ActionListener, KeyListener
 	south.add(resetButton);
 	south.add(closeButton);
 	floater.add("South",south);
-	floater.resize(baseSize.width,baseSize.height+50);
-	floater.show();
+	floater.setSize(baseSize.width,baseSize.height+50);
+	floater.setVisible(true);
   }
   
   private void unFloatWindow()
   {
     floating=false;		// typing d or return drops floating window
-    floater.hide();
+    floater.setVisible(false);
 	floater.remove(slate);
-	slate.resize(baseSize);
-	slate.reshape(0, 0, baseSize.width, baseSize.height);
+	slate.setSize(baseSize);
+	slate.setBounds(0, 0, baseSize.width, baseSize.height);
 	add(slate);
 	invalidate();
-	layout();
+	doLayout();
 	floater = null;
   }
   
@@ -324,16 +324,8 @@ public class Geometry extends Applet implements ActionListener, KeyListener
 	 Object target = e.getSource();
 	 if (target==closeButton || target == returnButton) {
 		 if (floating) {
-			 floating = false;
-			 floater.hide();
-			 floater.remove(slate);
-			 slate.reshape(0, 0, baseSize.width, baseSize.height);
-			 add(slate);
-			 invalidate();
-			 layout();
+			 unFloatWindow();
 		 }
-		 
-		 return;
 	 }
 	 else if (target == resetButton)
 	 {

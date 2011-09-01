@@ -21,13 +21,8 @@ public class ClientFrame extends Frame {
 
   Applet app;
 
-  public ClientFrame (String s, Applet appVal) {
+  public ClientFrame (String s) {
     super(s);
-    app = appVal;
-  }
-
-  public boolean handleEvent (Event evt) {
-    return app.handleEvent(evt);
   }
 
 }
