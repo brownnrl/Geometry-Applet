@@ -25,7 +25,11 @@ import java.util.StringTokenizer;
 
 public class Slate extends Canvas implements KeyListener, MouseListener, MouseMotionListener {
 
-  int eCount;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 166991840090917101L;
+int eCount;
   Element element[];
   boolean preexists[];
   int picki = -1;

@@ -19,7 +19,12 @@ import java.applet.Applet;
 
 public class ClientFrame extends Frame {
 
-  Applet app;
+
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3294763193966833804L;
+Applet app;
 
   public ClientFrame (String s) {
     super(s);

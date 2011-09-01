@@ -26,7 +26,11 @@ import java.util.StringTokenizer;
 public class Geometry extends Applet implements ActionListener, KeyListener
 {
 
-  boolean debug;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5614095970352653292L;
+boolean debug;
   String title;
   Color background;
   static Color orange = new Color(255,150,0);
