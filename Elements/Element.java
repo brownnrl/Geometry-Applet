@@ -31,13 +31,6 @@ public abstract class Element extends Object {
   final static int BELOW = 4;
 
 
-/*  void setName (String s) {name = s;}
-  String name() {return name;}
-  void setNameColor (Color c) {nameColor = c;}
-  void setVertexColor (Color c) {vertexColor = c;}
-  void setEdgeColor (Color c) {edgeColor = c;}
-  void setFaceColor (Color c) {faceColor = c;}
-*/  
   public void drawString (int ix, int iy, Graphics g, Dimension d) {
       g.setColor(nameColor);
 
@@ -87,6 +80,11 @@ public abstract class Element extends Object {
     return true;
   }
 
+  public String getName()
+  {
+	  return name;
+  }
+  
   protected void reset() {update();}
   protected void update() {}
   protected void translate (double dx, double dy) {}
