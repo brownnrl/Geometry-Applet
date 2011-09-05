@@ -42,7 +42,6 @@ boolean debug;
   boolean floating = false;
   ClientFrame floater;
   int stage;
-  Button closeButton, resetButton, returnButton;
   Dimension baseSize;
   String font;
   int fontsize;
@@ -132,7 +131,7 @@ boolean debug;
     if (!t.hasMoreTokens()) {
       message.append("Parameter "+param+" missing a construction.");
       return null;
-    }
+    } 
     String construction = t.nextToken();
     if (!t.hasMoreTokens()) {
       message.append("Parameter "+param+" missing construction data.");
@@ -250,18 +249,14 @@ boolean debug;
     
     slate.updateCoordinates(0);
     
-    closeButton = new Button("Close");
-    resetButton = new Button("Reset");
-    returnButton = new Button("Return");
-    
-    closeButton.addActionListener(this); 
-    resetButton.addActionListener(this);
-    returnButton.addActionListener(this);
-    
     slate.addKeyListener(this);
+    
+    slate.saveOriginal();
+
+    
   }
   
-  public void keyPressed(KeyEvent e) {}
+  public void keyPressed(KeyEvent e) {} 
   
   public void keyReleased(KeyEvent e) {}
   
@@ -292,25 +287,18 @@ boolean debug;
 	  
   }
 
-  private void floatWindow() 
+  public void floatWindow() 
   {
     floating=true;		// typing u or return starts floating window
+	
+    if(floater==null) floater = new ClientFrame(title,this);
     
-	floater = new ClientFrame(title);
-	
 	remove(slate);
-	
-	floater.add("Center",slate);
-	
-	Panel south = new Panel();
-	south.add(resetButton);
-	south.add(closeButton);
-	floater.add("South",south);
-	floater.setSize(baseSize.width,baseSize.height+50);
+
 	floater.setVisible(true);
   }
   
-  private void unFloatWindow()
+  public void unFloatWindow()
   {
     floating=false;		// typing d or return drops floating window
     floater.setVisible(false);
@@ -324,19 +312,7 @@ boolean debug;
   }
   
   public void actionPerformed(ActionEvent e)
-  {
-	 Object target = e.getSource();
-	 if (target==closeButton || target == returnButton) {
-		 if (floating) {
-			 unFloatWindow();
-		 }
-	 }
-	 else if (target == resetButton)
-	 {
-		 slate.reset();
-		 slate.repaint();
-	 }
-  } 
+  {  } 
   
 }
 

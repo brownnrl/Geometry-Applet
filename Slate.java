@@ -29,9 +29,14 @@ public class Slate extends Canvas implements KeyListener, MouseListener, MouseMo
 	 * 
 	 */
 	private static final long serialVersionUID = 166991840090917101L;
-int eCount;
+  int eCount;
   Element element[];
   boolean preexists[];
+  
+  int     original_eCount;
+  Element original_element[];
+  boolean original_preexists[];
+  
   int picki = -1;
   PointElement pick = new PointElement();
   PlaneElement screen;
@@ -58,6 +63,10 @@ int eCount;
     addKeyListener(this);
     addMouseListener(this);
     addMouseMotionListener(this);
+  }
+  
+  void saveOriginal() {
+	  original_eCount = eCount;
   }
 
   void extendArrays() {
@@ -813,8 +822,15 @@ int eCount;
   }
 
   void reset() {
-    for (int i=0; i<eCount; ++i)
-      element[i].reset();
+
+    for (int i=0; i<original_eCount; ++i)
+        element[i].reset();
+	  
+	for(int i = original_eCount; i<element.length; i++)
+		element[i] = null;
+	
+	eCount = original_eCount;
+
   }
 
   void updateCoordinates(int i) {
@@ -963,26 +979,7 @@ int eCount;
   
   public void mouseMoved(MouseEvent e) {}
   
-  /*
-  public boolean mouseDown(Event evt, int c, int d) {
-    // determine which ball is closest to location (c,d).
-    pick = null;
-    movePick (c,d);
-    return true;
-  } 
 
-  public boolean mouseDrag(Event evt, int c, int d) {
-    movePick (c,d);
-    return true;
-  }
-
-  public boolean mouseUp(Event evt, int c, int d) {
-    if (pick == null) return true;
-    movePick(c,d);
-    pick = null;
-    return true;
-  }
-  */
   
   
 }
