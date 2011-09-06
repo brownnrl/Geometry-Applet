@@ -35,6 +35,13 @@ public class PointElement extends Element {
     return "[" + name + "=(" +x+ "," +y+ "," +z+ ")]";
   }
   
+  @Override
+  public boolean hitTest(int x, int y)
+  {
+	  return Math.sqrt((this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)) <= this.pixelTolerance;
+  }
+  
+  
   PointElement to(PointElement B) {x = B.x; y = B.y; z = B.z; return this;}
   PointElement plus(PointElement B) {x += B.x; y += B.y; z += B.z; return this;}
   PointElement minus(PointElement B) {x -= B.x; y -= B.y; z -= B.z; return this;}
@@ -315,7 +322,17 @@ public class PointElement extends Element {
       drawString((int)Math.round(x),(int)Math.round(y), g,d);
   }
 
-  protected void drawVertex (Graphics g) {drawVertex(g,vertexColor);}
+  protected void drawVertex (Graphics g) 
+  {
+	  if(this.shouldHighlight)
+	  {
+		  drawVertex(g,vertexHighlightColor);
+	  }
+	  else
+	  {
+		  drawVertex(g,vertexColor);
+	  }
+  }
 
   public void drawVertex (Graphics g, Color c) {
     if (c != null && defined()) {

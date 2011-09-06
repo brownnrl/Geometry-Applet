@@ -19,13 +19,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.lang.Integer;
 import java.lang.StringBuffer;
+import java.util.Vector;
+
 import javax.swing.JOptionPane;
 
-import sun.awt.VerticalBagLayout;
-
-public class ClientFrame extends Frame implements ActionListener, MouseListener {
+public class ClientFrame extends Frame implements ActionListener, MouseListener, MouseMotionListener {
 
 	enum EntryMode
 	{ SELECT, POINT, LINE, CIRCLE, SQUARE }
@@ -73,6 +74,8 @@ public class ClientFrame extends Frame implements ActionListener, MouseListener 
       add("South",south);
       add("Center",slate);
       add("West",west);
+      
+      slate.addMouseMotionListener(this);
       
       slate.addMouseListener(this);
       setSize(app.baseSize.width,app.baseSize.height+50);
@@ -127,29 +130,42 @@ public class ClientFrame extends Frame implements ActionListener, MouseListener 
 	
 	@Override
 	public void mouseEntered(MouseEvent e) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	{}
 	
 	@Override
 	public void mouseExited(MouseEvent e) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	{}
 	
 	@Override
 	public void mousePressed(MouseEvent e) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	{}
 	
 	@Override
 	public void mouseReleased(MouseEvent e) 
-	{
+	{}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		
+		Element elements[] = slate.element;
+		if(currentMode == EntryMode.SELECT)
+		{
+			for(int i = 0; i < slate.eCount; i++)
+			{
+				if(elements[i].hitTest(e.getX(), e.getY()))
+					elements[i].setHighlight(true);
+				else
+					elements[i].setHighlight(false);
+			}
+			
+			slate.repaint();
+		}
 		
 	}
 

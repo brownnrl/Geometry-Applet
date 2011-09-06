@@ -20,6 +20,11 @@ import java.lang.String;
 public abstract class Element extends Object {
   String name;
   Color nameColor, vertexColor, edgeColor, faceColor;
+  Color nameHighlightColor = Color.red;
+  Color vertexHighlightColor = Color.WHITE;
+  Color edgeHighlightColor   = Color.white;
+  Color faceHighlightColor   = Color.CYAN;
+  
   boolean dragable = false;
   int dimension;
 
@@ -29,6 +34,9 @@ public abstract class Element extends Object {
   final static int RIGHT = 2;
   final static int ABOVE = 3;
   final static int BELOW = 4;
+  
+  boolean shouldHighlight = false;
+  int pixelTolerance = 10;
 
 
   public void drawString (int ix, int iy, Graphics g, Dimension d) {
@@ -83,6 +91,16 @@ public abstract class Element extends Object {
   public String getName()
   {
 	  return name;
+  }
+  
+  public boolean hitTest(int x, int y)
+  {
+	  return false;
+  }
+  
+  public void setHighlight(boolean highlight) 
+  {
+	  this.shouldHighlight = highlight;
   }
   
   protected void reset() {update();}

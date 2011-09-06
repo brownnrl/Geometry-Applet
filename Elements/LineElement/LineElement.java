@@ -32,6 +32,39 @@ public class LineElement extends Element {
 
   protected boolean defined() {return A.defined() && B.defined();}
 
+  public boolean hitTest(int x, int y)
+  {
+	  /*
+	   * Algorithm taken from
+	   * http://stackoverflow.com/questions/1073336/circle-line-collision-detection
+	   * 9/06/2011
+	   */
+	  PointElement C = new PointElement((double)x,(double)y,0.0);
+	  
+	  PointElement direction = new PointElement(B.x-A.x,B.y-A.y, 0.0);
+	  
+	  PointElement toStart   = new PointElement(A.x-C.x, A.y-C.y, 0.0);
+	  
+	  double a = PointElement.dot(direction, direction);
+	  double b = 2.0*PointElement.dot(toStart, direction);
+	  double c = PointElement.dot(toStart,toStart) - (double)pixelTolerance;
+
+	  double discriminant = b*b-4*a*c;
+	  
+	  if( discriminant < 0 )
+	  {
+	    // no intersection
+		  return false;
+	  }
+	  else
+	  {
+	    // ray didn't totally miss sphere,
+	    // so there is a solution to
+	    // the equation.
+		return true;
+	  }
+  }
+  
   protected void drawName (Graphics g, Dimension d) {
     if (nameColor!=null && name!=null && defined()) {
       int ix = (int)Math.round((A.x+B.x)/2.0);
@@ -52,7 +85,13 @@ public class LineElement extends Element {
 	          (int)Math.round(B.x), (int)Math.round(B.y));
   } }
 
-  protected void drawEdge (Graphics g) {drawEdge(A,B,g,edgeColor);}
+  protected void drawEdge (Graphics g) 
+  {
+	  if(shouldHighlight)
+		  drawEdge(A,B,g,edgeHighlightColor);
+	  else
+		  drawEdge(A,B,g,edgeColor);
+  }
 }
 
 
